@@ -1,0 +1,351 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+  .poster-wrap {
+    background: #010a1a;
+    min-height: 900px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Rajdhani', sans-serif;
+  }
+  .grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,120,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,120,255,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .scanline {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,80,200,0.03) 3px, rgba(0,80,200,0.03) 4px);
+    pointer-events: none;
+  }
+  .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18; }
+  .orb1 { width: 420px; height: 420px; background: #0057ff; top: -100px; left: -120px; }
+  .orb2 { width: 300px; height: 300px; background: #00cfff; bottom: 80px; right: -80px; }
+  .orb3 { width: 180px; height: 180px; background: #1a3aff; top: 45%; left: 50%; }
+
+  .poster-inner { position: relative; z-index: 2; padding: 22px 26px 28px; }
+
+  .header-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 0.5px solid rgba(0,140,255,0.25);
+    padding-bottom: 12px; margin-bottom: 16px;
+  }
+  .jain-logo-box { display: flex; align-items: center; gap: 6px; }
+  .jgi-badge { background: #cc0000; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 5px; border-radius: 2px; letter-spacing: 1px; }
+  .jain-text { color: #fff; font-size: 20px; font-weight: 800; letter-spacing: 2px; line-height: 1; }
+  .jain-sub { color: rgba(255,255,255,0.55); font-size: 7.5px; font-weight: 400; line-height: 1.3; max-width: 72px; }
+  .divider-v { width: 0.5px; height: 30px; background: rgba(255,255,255,0.2); margin: 0 8px; }
+  .foss-logo { display: flex; align-items: center; gap: 6px; color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 1px; }
+  .foss-diamond { width: 22px; height: 22px; background: linear-gradient(135deg, #3b8ef3, #0052cc); transform: rotate(45deg); border-radius: 3px; display: flex; align-items: center; justify-content: center; }
+  .foss-inner { width: 10px; height: 10px; background: #fff; border-radius: 2px; }
+  .mid-logos { display: flex; align-items: center; gap: 10px; }
+  .mid-logo-item { color: rgba(255,255,255,0.5); font-size: 8.5px; font-weight: 700; letter-spacing: 0.5px; text-align: center; border: 0.5px solid rgba(255,255,255,0.15); padding: 3px 7px; border-radius: 3px; }
+
+  .dept-tag { text-align: center; color: rgba(255,255,255,0.65); font-size: 11.5px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+
+  .event-badge { text-align: center; margin-bottom: 8px; }
+  .badge-pill { display: inline-block; border: 1px solid #f5c842; color: #f5c842; font-size: 10px; font-weight: 700; letter-spacing: 3px; padding: 3px 16px; border-radius: 2px; text-transform: uppercase; }
+
+  .main-title {
+    text-align: center;
+    font-family: 'Orbitron', monospace;
+    color: #fff; font-size: 36px; font-weight: 900; line-height: 1.0;
+    letter-spacing: 1px; text-transform: uppercase; margin: 6px 0 4px;
+    text-shadow: 0 0 40px rgba(0,150,255,0.45);
+  }
+  .title-accent { color: #3b8ef3; }
+  .sub-title {
+    text-align: center; font-family: 'Orbitron', monospace;
+    color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 400;
+    letter-spacing: 5px; margin-bottom: 14px; text-transform: uppercase;
+  }
+
+  .deco-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .h-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #3b8ef3, transparent); }
+
+  /* === COUNTDOWN CLOCK === */
+  .countdown-wrap {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(245,200,66,0.5);
+    border-radius: 6px;
+    padding: 14px 16px 12px;
+    margin-bottom: 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .countdown-wrap::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(245,200,66,0.04), rgba(245,200,66,0.08), rgba(245,200,66,0.04));
+  }
+  .countdown-label {
+    color: rgba(255,255,255,0.5); font-size: 9px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px;
+  }
+  .countdown-deadline {
+    font-family: 'Orbitron', monospace; color: #f5c842;
+    font-size: 18px; font-weight: 900; letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  .clock-units { display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .clock-box {
+    background: rgba(5,22,50,0.9);
+    border: 0.5px solid rgba(0,140,255,0.4);
+    border-radius: 5px;
+    padding: 8px 14px;
+    min-width: 58px;
+    text-align: center;
+  }
+  .clock-num { font-family: 'Orbitron', monospace; color: #fff; font-size: 24px; font-weight: 700; line-height: 1; }
+  .clock-unit { color: rgba(0,180,255,0.7); font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+  .clock-sep { font-family: 'Orbitron', monospace; color: #f5c842; font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+  .urgent-tag {
+    display: inline-block;
+    background: rgba(200,0,0,0.25); border: 0.5px solid rgba(255,60,60,0.5);
+    color: #ff6060; font-size: 9px; font-weight: 700; letter-spacing: 2px;
+    padding: 3px 10px; border-radius: 2px; text-transform: uppercase; margin-top: 8px;
+  }
+
+  /* Info strip */
+  .info-strip {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px; margin-bottom: 12px;
+  }
+  .info-card {
+    background: rgba(5,22,50,0.8);
+    border: 0.5px solid rgba(0,140,255,0.3);
+    border-radius: 5px; padding: 9px 10px; text-align: center;
+  }
+  .info-label { color: rgba(255,255,255,0.4); font-size: 8.5px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
+  .info-value { color: #fff; font-family: 'Orbitron', monospace; font-size: 12px; font-weight: 700; }
+  .info-value.yellow { color: #f5c842; }
+  .info-value.blue { color: #3b8ef3; }
+
+  /* Section header */
+  .sec-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .sec-line { flex: 1; height: 0.5px; background: rgba(0,140,255,0.35); }
+  .sec-title { color: #f5c842; font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; white-space: nowrap; }
+
+  /* Prizes */
+  .prize-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .prize-card { border-radius: 5px; padding: 11px 8px; text-align: center; }
+  .prize-card.gold { background: linear-gradient(135deg, rgba(30,20,0,0.9), rgba(60,40,0,0.7)); border: 1px solid rgba(245,200,66,0.5); }
+  .prize-card.silver { background: linear-gradient(135deg, rgba(20,20,28,0.9), rgba(40,40,55,0.7)); border: 1px solid rgba(180,190,210,0.4); }
+  .prize-card.bronze { background: linear-gradient(135deg, rgba(25,14,4,0.9), rgba(50,28,8,0.7)); border: 1px solid rgba(180,120,60,0.4); }
+  .prize-icon { font-size: 24px; line-height: 1; margin-bottom: 4px; }
+  .prize-place { font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 700; letter-spacing: 2px; margin-bottom: 4px; }
+  .prize-card.gold .prize-place { color: #f5c842; }
+  .prize-card.silver .prize-place { color: #b4bece; }
+  .prize-card.bronze .prize-place { color: #c97a30; }
+  .prize-reward { color: #fff; font-size: 11px; font-weight: 700; margin-bottom: 2px; }
+  .prize-sub { color: rgba(255,255,255,0.5); font-size: 9.5px; }
+
+  /* Rules */
+  .rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+  .rule-item { display: flex; align-items: flex-start; gap: 8px; background: rgba(3,15,35,0.6); border: 0.5px solid rgba(0,100,200,0.2); border-radius: 4px; padding: 7px 9px; }
+  .rule-dot { width: 5px; height: 5px; border-radius: 50%; background: #3b8ef3; margin-top: 5px; flex-shrink: 0; }
+  .rule-text { color: rgba(255,255,255,0.75); font-size: 10.5px; font-weight: 500; line-height: 1.4; }
+
+  /* Coordinators */
+  .coord-section { border-top: 0.5px solid rgba(0,140,255,0.2); padding-top: 12px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+  .coord-card { text-align: center; }
+  .coord-name { color: #f5c842; font-size: 10px; font-weight: 700; line-height: 1.3; margin-bottom: 2px; }
+  .coord-role { color: rgba(255,255,255,0.5); font-size: 9px; line-height: 1.3; }
+  .coord-contact { color: rgba(255,255,255,0.35); font-size: 9px; }
+</style>
+
+<div class="poster-wrap">
+  <div class="grid-bg"></div>
+  <div class="scanline"></div>
+  <div class="glow-orb orb1"></div>
+  <div class="glow-orb orb2"></div>
+  <div class="glow-orb orb3"></div>
+
+  <div class="poster-inner">
+
+    <!-- Header -->
+    <div class="header-bar">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div class="jain-logo-box">
+          <div class="jgi-badge">JGi</div>
+          <div>
+            <div class="jain-text">JAIN</div>
+            <div class="jain-sub">DEEMED-TO-BE UNIVERSITY</div>
+          </div>
+        </div>
+        <div class="divider-v"></div>
+        <div class="jain-sub" style="max-width:80px;color:rgba(255,255,255,0.5)">FACULTY OF ENGINEERING AND TECHNOLOGY</div>
+      </div>
+      <div class="mid-logos">
+        <div class="mid-logo-item">INDIA<br>TODAY</div>
+        <div class="mid-logo-item">CAREERS<br>360</div>
+      </div>
+      <div class="foss-logo">
+        <div class="foss-diamond"><div class="foss-inner"></div></div>
+        FOSS CLUB
+      </div>
+    </div>
+
+    <!-- Dept -->
+    <div class="dept-tag">Department of Computer Engineering · Software Engineering</div>
+
+    <!-- Badge -->
+    <div class="event-badge"><span class="badge-pill">⚡ Final Week · Assessment</span></div>
+
+    <!-- Title -->
+    <div class="main-title">FULLSTACK<br><span class="title-accent">CODE</span> CHALLENGE</div>
+    <div class="sub-title">Build · Submit · Win</div>
+
+    <div class="deco-row">
+      <div class="h-line"></div>
+      <span style="font-size:18px;">🏆</span>
+      <div class="h-line"></div>
+    </div>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown-wrap">
+      <div class="countdown-label">⏳ Submission Deadline</div>
+      <div class="countdown-deadline">Monday, May 5, 2026 · 11:59 PM</div>
+      <div class="clock-units">
+        <div class="clock-box">
+          <div class="clock-num" id="hrs">--</div>
+          <div class="clock-unit">Hours</div>
+        </div>
+        <div class="clock-sep">:</div>
+        <div class="clock-box">
+          <div class="clock-num" id="mins">--</div>
+          <div class="clock-unit">Minutes</div>
+        </div>
+        <div class="clock-sep">:</div>
+        <div class="clock-box">
+          <div class="clock-num" id="secs">--</div>
+          <div class="clock-unit">Seconds</div>
+        </div>
+      </div>
+      <div class="urgent-tag" id="urgency-tag">⚠ Deadline Tonight — Submit Now!</div>
+    </div>
+
+    <!-- Info strip -->
+    <div class="info-strip">
+      <div class="info-card">
+        <div class="info-label">Workshop</div>
+        <div class="info-value blue">10 Weeks</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Week</div>
+        <div class="info-value yellow">Final Week</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Open To</div>
+        <div class="info-value">All FET Students</div>
+      </div>
+    </div>
+
+    <!-- Prizes -->
+    <div class="sec-hdr">
+      <div class="sec-line"></div>
+      <div class="sec-title">🏅 Prize Pool</div>
+      <div class="sec-line"></div>
+    </div>
+    <div class="prize-row">
+      <div class="prize-card gold">
+        <div class="prize-icon">🥇</div>
+        <div class="prize-place">1st Place</div>
+        <div class="prize-reward">Certificate of Excellence</div>
+      </div>
+      <div class="prize-card silver">
+        <div class="prize-icon">🥈</div>
+        <div class="prize-place">2nd Place</div>
+        <div class="prize-reward">Certificate of Merit</div>
+      </div>
+      <div class="prize-card bronze">
+        <div class="prize-icon">🥉</div>
+        <div class="prize-place">3rd Place</div>
+        <div class="prize-reward">Participation Certificate</div>
+      </div>
+    </div>
+
+    <!-- Rules -->
+    <div class="sec-hdr">
+      <div class="sec-line"></div>
+      <div class="sec-title">📋 How to Participate</div>
+      <div class="sec-line"></div>
+    </div>
+    <div class="rules-grid">
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <div class="rule-text">Complete this week's assigned fullstack project</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <div class="rule-text">Deploy online — Vercel, Render, or GitHub Pages</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <div class="rule-text">Submit GitHub repo + live link via the Google Form</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <div class="rule-text">Judged on functionality, code quality, UI &amp; creativity</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <div class="rule-text">All code must be original — no plagiarism allowed</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <div class="rule-text">Winners announced next Saturday in class</div>
+      </div>
+    </div>
+
+    <!-- Coordinators -->
+    <div class="coord-section">
+      <div class="coord-card">
+        <div class="coord-name">Mr. N Shantha Kumar</div>
+        <div class="coord-role">Faculty Coordinator — FOSS</div>
+      </div>
+      <div class="coord-card">
+        <div class="coord-name">Dr. Santhosh S</div>
+        <div class="coord-role">Program Coordinator</div>
+      </div>
+      <div class="coord-card">
+        <div class="coord-name">Krishna Modi</div>
+        <div class="coord-role">President — FOSS</div>
+        <div class="coord-contact">9352411349</div>
+      </div>
+      <div class="coord-card">
+        <div class="coord-name">Aparna Dhiraj</div>
+        <div class="coord-role">Student Coordinator</div>
+        <div class="coord-contact">7356675700</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function tick() {
+    const now = new Date();
+    const deadline = new Date('2026-05-05T23:59:00');
+    const diff = deadline - now;
+    if (diff <= 0) {
+      document.getElementById('hrs').textContent = '00';
+      document.getElementById('mins').textContent = '00';
+      document.getElementById('secs').textContent = '00';
+      document.getElementById('urgency-tag').textContent = '🔴 Deadline Passed';
+      return;
+    }
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('hrs').textContent = String(h).padStart(2,'0');
+    document.getElementById('mins').textContent = String(m).padStart(2,'0');
+    document.getElementById('secs').textContent = String(s).padStart(2,'0');
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
